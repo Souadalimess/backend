@@ -59,3 +59,19 @@ async def edit_hero(hero_id: int, hero: Hero, db: Session = Depends(get_db)):
     db.commit()
 
     return hero
+
+
+@app.delete("/heroes/{hero_id}")
+async def delete_hero(hero_id: int, db: Session = Depends(get_db)):
+    hero_model = db.query(models.Heroes).filter(
+        models.Heroes.id == hero_id).first()
+
+    if hero_model is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"ID {hero_id}: This Hero don't exist"
+        )
+
+    db.query(models.Heroes).filter(models.Heroes.id == hero_id).delete()
+
+    db.commit()
