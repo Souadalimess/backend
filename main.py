@@ -21,3 +21,9 @@ async def root():
 @app.get("/api/v1/heroes")
 async def fetch_heroes():
     return db
+
+
+@app.post("/api/v1/heroes")
+async def create_hero(hero: Hero):
+    db.append(hero)
+    return {"id": hero.id}
