@@ -1,8 +1,10 @@
-from typing import Optional
-from uuid import UUID, uuid4
-from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String
+
+from database import Base
 
 
-class Hero (BaseModel):
-    id: Optional[UUID] = uuid4()
-    name: str
+class Heroes(Base):
+    __tablename__ = "heroes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
