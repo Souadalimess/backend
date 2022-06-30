@@ -12,6 +12,7 @@ origins = [
     "http://localhost:4200",
     "http://127.0.0.1:4200",
     "http://frontend:4200",
+    "http://localhost:4200/detail/"
 ]
 
 app.add_middleware(
@@ -43,6 +44,12 @@ HEROES = []
 @app.get("/heroes")
 async def root(db: Session = Depends(get_db)):
     return db.query(models.Heroes).all()
+
+
+@app.get("/heroes/{hero_id}")
+def get_hero_by_id(hero_id: int, db: Session = Depends(get_db)):
+
+    return db.query(models.Heroes).filter(models.Heroes.id == hero_id).first()
 
 
 @app.post("/heroes")
